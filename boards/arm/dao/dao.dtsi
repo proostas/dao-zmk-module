@@ -8,7 +8,16 @@
 #include <nordic/nrf52840_qiaa.dtsi>
 
 #include <dt-bindings/zmk/matrix_transform.h>
+#include "layouts/dao_layout.dtsi"
+#include "layouts/crkbd_layout.dtsi"
 
+&dao_full_layout {
+    transform = <&extra_keys_transform>;
+};
+
+&dao_crkbd_layout {
+    transform = <&default_transform>;
+};
 
 / {
 	model = "Dao";
@@ -19,7 +28,7 @@
 		zephyr,sram = &sram0;
 		zephyr,flash = &flash0;
 		zmk,kscan = &kscan0;
-		zmk,matrix_transform = &default_transform;
+        zmk,physical_layout = &dao_crkbd_layout;
 		zmk,battery = &vbatt;
 	};
 
@@ -71,7 +80,7 @@
 			, <&gpio0 24 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
 			;
 	};
-    
+
     leds {
         compatible = "gpio-leds";
         blue_led: led_0 {
@@ -84,7 +93,7 @@
 		label = "VBATT";
 		io-channels = <&adc 7>; 
 		output-ohms = <2000000>;
-		full-ohms = <(2000000 + 820000)>;
+		full-ohms = <(2000000 + 806000)>;
 	};
 	
 };
@@ -108,6 +117,10 @@
 
 &usbd {
 	status = "okay";
+};
+
+zephyr_udc0: &usbd {
+    status = "okay";
 };
 
 &flash0 {
